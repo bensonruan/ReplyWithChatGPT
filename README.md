@@ -13,4 +13,3 @@ git clone https://github.com/bensonruan/ReplyWithChatGPT.git
 ## Tutorial 
 https://bensonruan.com/how-to-build-a-reply-with-chatgpt-function/
 
-![reply-with-chatgpt](https://bensonruan.com/wp-content/uploads/2023/03/a_robot_sitting_in_front_of_computer_replying_comments_2.png)
