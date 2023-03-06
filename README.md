@@ -14,5 +14,5 @@ git clone https://github.com/bensonruan/ReplyWithChatGPT.git
 * Follow instruction under the "ChatGPT Settings" page to set up this plugin
 
 ## Tutorial 
-https://bensonruan.com/how-to-build-a-reply-with-chatgpt-function/
+https://bensonruan.com/how-to-build-a-wordpress-plugin-to-reply-comment-with-chatgp/
 
