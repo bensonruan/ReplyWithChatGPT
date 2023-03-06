@@ -2,7 +2,7 @@
 A WordPress function to reply comments using OpenAI's ChatGPT API 
 
 ## Demo
-![reply-with-chatgpt](https://bensonruan.com/wp-content/uploads/2023/03/WordPress-Comment-Reply-with-ChatGPT.gif)
+![reply-with-chatgpt](https://i0.wp.com/bensonruan.com/wp-content/uploads/2023/03/WP-Plugin-ChatGPT-Reply-Demo.gif)
 
 ## Installing
 Clone this repository to your local computer
