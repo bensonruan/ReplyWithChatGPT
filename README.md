@@ -9,6 +9,9 @@ Clone this repository to your local computer
 ``` bash
 git clone https://github.com/bensonruan/ReplyWithChatGPT.git
 ```
+* Upload WordPress Plugin files to your host
+* Activate "ChatGPT Reply" plugin in WordPress admin Plugins page
+* Follow instruction under the "ChatGPT Settings" page to set up this plugin
 
 ## Tutorial 
 https://bensonruan.com/how-to-build-a-reply-with-chatgpt-function/
