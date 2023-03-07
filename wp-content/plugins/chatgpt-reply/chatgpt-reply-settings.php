@@ -21,6 +21,7 @@ function openai_comment_reply_settings_page() {
   $openai_api_key = get_option( 'openai_api_key' );
   $max_tokens = get_option( 'openai_max_tokens' );
   $temperature = get_option( 'openai_temperature' );
+  $openai_model = get_option( 'openai_model' );
   ?>
   <div class="wrap">
     <h1>Reply with ChatGPT Settings</h1>
@@ -41,6 +42,15 @@ function openai_comment_reply_settings_page() {
 				<li>Copy the API key and paste it here.</li>
 			</ul>
 		  <input type="password" required name="openai_api_key" class="regular-text" value="<?php echo esc_attr( $openai_api_key ); ?>" /></td>
+        </tr>
+		<tr valign="top">
+          <th scope="row">Model</th>
+          <td><select id="openai_model" required name="openai_model">
+		        <option value=""></option>
+                <option value="text-davinci-003" <?php selected($openai_model, 'text-davinci-003'); ?>>text-davinci-003</option>
+                <option value="gpt-3.5-turbo" <?php selected($openai_model, 'gpt-3.5-turbo'); ?>>gpt-3.5-turbo</option>
+            </select>
+		  </td>
         </tr>
 		<tr valign="top">
           <th scope="row">Maximum  Words</th>
@@ -66,5 +76,6 @@ function openai_settings_init() {
   register_setting( 'openai_settings', 'openai_api_key' );
   register_setting( 'openai_settings', 'openai_max_tokens' );
   register_setting( 'openai_settings', 'openai_temperature' );
+  register_setting( 'openai_settings', 'openai_model' );
 }
 add_action( 'admin_init', 'openai_settings_init' );

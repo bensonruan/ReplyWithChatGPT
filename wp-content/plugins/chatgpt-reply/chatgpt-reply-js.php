@@ -4,6 +4,7 @@ function add_chatgpt_js_to_comment_page() {
 	$openai_api_key = get_option( 'openai_api_key' );
 	$max_tokens = empty(get_option( 'openai_max_tokens' )) ? 100 : get_option( 'openai_max_tokens' );
 	$temperature = empty(get_option( 'openai_temperature' )) ? 0.5 : get_option( 'openai_temperature' );
+	$model = get_option( 'openai_model' );
     ?>
     <script>
     jQuery(document).ready(function($) {
@@ -24,28 +25,54 @@ function add_chatgpt_js_to_comment_page() {
 		function openai_reply(comment_id) {
 			
 			rowData = $('#inline-'+comment_id);
-			comment_text = $('textarea.comment', rowData).val();
+			comment_text = 'Reply to comment: ' + $('textarea.comment', rowData).val();
 			editRow = $('#replyrow');
 			$( '#replysubmit .spinner' ).addClass( 'is-active' );
-			apiKey = "<?php echo esc_attr( $openai_api_key ); ?>";			
+			apiKey = "<?php echo esc_attr( $openai_api_key ); ?>";	
+			model = "<?php echo esc_attr( $model ); ?>";
+			apiurl = "";
+			data = "";
+			if(model.includes("gpt")){
+				apiurl = "https://api.openai.com/v1/chat/completions"
+				data = JSON.stringify({
+				  "model": model,
+				  "messages": [
+								{
+								  "role": "user", 
+								  "content": comment_text
+								}
+							  ],
+				  "max_tokens": <?php echo esc_attr( $max_tokens ); ?>,
+				  "temperature": <?php echo esc_attr( $temperature ); ?>
+				})
+			}
+			else {
+				apiurl = "https://api.openai.com/v1/completions";
+				data = JSON.stringify({
+				  "model": model,
+				  "prompt":  comment_text,
+				  "max_tokens": <?php echo esc_attr( $max_tokens ); ?>,
+				  "temperature": <?php echo esc_attr( $temperature ); ?>
+				})
+			}
 			$.ajax({
 				type: "POST",
-				url: "https://api.openai.com/v1/completions",
+				url: apiurl,
 				headers: {
 				  "Content-Type": "application/json",
 				  "Authorization": "Bearer " + apiKey
 				},
-				data: JSON.stringify({
-				  "model": "text-davinci-003",
-				  "prompt": 'Reply to comment: ' + comment_text,
-				  "max_tokens": <?php echo esc_attr( $max_tokens ); ?>,
-				  "temperature": <?php echo esc_attr( $temperature ); ?>
-				}),
+				data: data,
 				success: function(response) {
 				  var choices = response.choices;
 				  if( choices.length > 0) {
 					var choice = choices[0];
-					var reply_text = choice.text;
+					var reply_text = ""
+					if(model.includes("gpt")){
+						reply_text = choice.message.content;
+					}else{
+						reply_text = choice.text;
+					}
 					if (reply_text && reply_text.startsWith("\n\n")) {
 						 reply_text = reply_text.replace(/^\n+/, "");
 					}
