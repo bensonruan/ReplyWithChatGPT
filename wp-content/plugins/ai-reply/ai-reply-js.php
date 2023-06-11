@@ -1,6 +1,6 @@
 <?php
-// Add JavaScript code to handle ChatGPT reply
-function add_chatgpt_js_to_comment_page() {
+// Add JavaScript code to handle AI reply
+function aireply_add_js_to_comment_page() {
 	$openai_api_key = get_option( 'openai_api_key' );
 	$max_tokens = empty(get_option( 'openai_max_tokens' )) ? 100 : get_option( 'openai_max_tokens' );
 	$temperature = empty(get_option( 'openai_temperature' )) ? 0.5 : get_option( 'openai_temperature' );
@@ -17,12 +17,12 @@ function add_chatgpt_js_to_comment_page() {
 			else{
 				var commentId = $(this).closest('tr').attr('id').replace('comment-', '');
 				$('#comment-' + commentId + ' .row-actions .reply button').click();
-				openai_reply(commentId);
+				aireply_request_openai_api(commentId);
 			}
             return false;
         });
 		
-		function openai_reply(comment_id) {
+		function aireply_request_openai_api(comment_id) {
 			
 			rowData = $('#inline-'+comment_id);
 			comment_text = 'Reply to comment: ' + $('textarea.comment', rowData).val();
@@ -37,6 +37,10 @@ function add_chatgpt_js_to_comment_page() {
 				data = JSON.stringify({
 				  "model": model,
 				  "messages": [
+								{
+								  "role": "system", 
+								  "content": "Act like you are a wordpress website admin, and you are replying comments"
+								},
 								{
 								  "role": "user", 
 								  "content": comment_text
@@ -79,6 +83,11 @@ function add_chatgpt_js_to_comment_page() {
 					$('#replycontent', editRow).val( reply_text );
 					$( '#replysubmit .spinner' ).removeClass( 'is-active' );
 				  }
+				},
+				error: function (request, status, error) {
+					var apiError = request.responseJSON.error.message;
+					alert("Reply with ChatGPT not working due to error below\nOpenAI API error : \n"+apiError);
+					$( '#replysubmit .spinner' ).removeClass( 'is-active' );
 				}
 			});
 		}
@@ -88,4 +97,4 @@ function add_chatgpt_js_to_comment_page() {
     </script>
     <?php
 }
-add_action('admin_footer-edit-comments.php', 'add_chatgpt_js_to_comment_page');
+add_action('admin_footer-edit-comments.php', 'aireply_add_js_to_comment_page');

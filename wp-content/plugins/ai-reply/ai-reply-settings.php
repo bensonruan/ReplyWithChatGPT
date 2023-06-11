@@ -1,19 +1,31 @@
 <?php
 // Define plugin settings page
-function chatgpt_reply_settings() {
+function aireply_openai_settings() {
     add_menu_page(
-        'Reply with ChatGPT Settings', 
-        'ChatGPT Settings', 
+        'AI Reply Settings', 
+        'AI Reply Settings', 
         'manage_options', 
-        'openai-comment-reply-settings', 
-        'openai_comment_reply_settings_page', 
+        'aireply-comment-reply-settings', 
+        'aireply_comment_reply_settings_page', 
         'dashicons-format-chat' 
     );
 }
-add_action('admin_menu', 'chatgpt_reply_settings');
+add_action('admin_menu', 'aireply_openai_settings');
 
+
+// Adding A settings link for the plugin on the Settings Page
+function aireply_add_plugin_page_settings_link( $links, $file ) {
+	// Check if the current plugin file matches your plugin's main file
+    if ( dirname($file) === 'ai-reply') {
+		$settings_link = '<a href="' . admin_url('admin.php?page=aireply-comment-reply-settings') . '">Settings</a>';
+        array_push($links, $settings_link);
+	}
+	return $links;
+}
+add_filter('plugin_action_links', 'aireply_add_plugin_page_settings_link',10,2);
+		
 // Define settings page HTML
-function openai_comment_reply_settings_page() {
+function aireply_comment_reply_settings_page() {
   if ( ! current_user_can( 'manage_options' ) ) {
     wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
   }
@@ -72,10 +84,10 @@ function openai_comment_reply_settings_page() {
 }
 
 // Define plugin settings
-function openai_settings_init() {
+function aireply_settings_init() {
   register_setting( 'openai_settings', 'openai_api_key' );
   register_setting( 'openai_settings', 'openai_max_tokens' );
   register_setting( 'openai_settings', 'openai_temperature' );
   register_setting( 'openai_settings', 'openai_model' );
 }
-add_action( 'admin_init', 'openai_settings_init' );
+add_action( 'admin_init', 'aireply_settings_init' );
