@@ -18,3 +18,6 @@ git clone https://github.com/bensonruan/ReplyWithChatGPT.git
 
 ## Tutorial 
 https://bensonruan.com/how-to-build-a-wordpress-plugin-to-reply-comment-with-chatgpt/
+
+## Support me 
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/W7W6METMY)
